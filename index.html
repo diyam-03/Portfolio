@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diya's Portfolio · The Archive of What-Ifs</title>
+<meta name="description" content="A museum of Diya's projects: machine learning, security, prediction and simulation.">
+<meta name="theme-color" content="#3a281b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏛️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="map.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+<!-- Reusable blueprint drawings -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="sketch" viewBox="0 0 200 150">
+    <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3">
+      <rect x="20" y="45" width="160" height="85"/>
+      <path d="M20 45 L100 12 L180 45"/>
+      <path d="M45 130 V92 a15 15 0 0 1 30 0 V130"/>
+      <path d="M85 130 V92 a15 15 0 0 1 30 0 V130"/>
+      <path d="M125 130 V92 a15 15 0 0 1 30 0 V130"/>
+      <path d="M10 142 H190 M10 137 V147 M190 137 V147"/>
+    </g>
+  </symbol>
+  <symbol id="arch" viewBox="0 0 100 120">
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M10 114 V50 a40 40 0 0 1 80 0 V114"/>
+      <path d="M22 114 V52 a28 28 0 0 1 56 0 V114"/>
+      <path d="M2 114 H98"/>
+      <path d="M50 10 V22" stroke-dasharray="3 3"/>
+    </g>
+  </symbol>
+  <symbol id="dome" viewBox="0 0 100 120">
+    <g fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 112 H88 M18 112 V72 M82 112 V72 M14 72 H86"/>
+      <path d="M22 72 a28 28 0 0 1 56 0"/>
+      <path d="M50 44 V28 M44 28 H56"/>
+      <path d="M34 112 V84 M50 112 V84 M66 112 V84"/>
+    </g>
+  </symbol>
+</svg>
+
+<div class="bar">
+  <span class="name">Diya's Portfolio · The Archive of What-Ifs</span>
+  <span class="tools">
+    <button class="btn" id="audioBtn" aria-pressed="false">🎧 Audio guide</button>
+    <button class="btn" id="nightBtn" aria-pressed="false">🌙 After hours</button>
+  </span>
+</div>
+
+<nav class="map" aria-label="Floor plan">
+  <a href="#lobby" data-room="lobby"><span>Floor plan</span></a>
+  <a href="#entrance" data-room="entrance"><span>Entrance</span></a>
+  <a href="#wing-a" data-room="wing-a"><span>Wing A</span></a>
+  <a href="#wing-b" data-room="wing-b"><span>Wing B</span></a>
+  <a href="#artifacts" data-room="artifacts"><span>Artifacts</span></a>
+  <a href="#wall" data-room="wall"><span>The Wall</span></a>
+  <a href="#giftshop" data-room="giftshop"><span>Gift Shop</span></a>
+</nav>
+
+<!-- LOBBY: 3D floor plan. Click a room to walk there. -->
+<section id="lobby" class="lobby" data-room="lobby" aria-label="Floor plan of the museum" data-audio="Welcome to The Archive of What-Ifs. Every exhibit here is a question someone asked before it happened. This is the floor plan. Tap a room to walk there.">
+  <div class="motes" id="motes" aria-hidden="true"></div>
+  <span class="deco d1" data-d aria-hidden="true"><svg><use href="#arch"/></svg></span>
+  <span class="deco d2" aria-hidden="true"><svg><use href="#dome"/></svg></span>
+  <span class="deco d3" aria-hidden="true"><svg><use href="#sketch"/></svg></span>
+  <span class="deco d4" aria-hidden="true"><svg><use href="#arch"/></svg></span>
+  <span class="fframe f1" aria-hidden="true"></span>
+  <span class="fframe f2" aria-hidden="true"></span>
+
+  <div class="lobby-in">
+    <div class="lobby-copy">
+      <p class="kicker">Diya's Portfolio · Floor Plan</p>
+      <h1>The Archive<br>of What-Ifs</h1>
+      <p class="tagline">Every exhibit is a question someone asked before it happened.</p>
+      <p class="hint">Tap a room to walk there ↓</p>
+      <ol class="legend">
+        <li><a href="#entrance"><i>1</i>Entrance Hall <small>Artist statement</small></a></li>
+        <li><a href="#wing-a"><i>2</i>Wing A <small>Permanent Collection</small></a></li>
+        <li><a href="#wing-b"><i>3</i>Wing B <small>Being Painted</small></a></li>
+        <li><a href="#artifacts"><i>4</i>The Artifacts <small>Skills</small></a></li>
+        <li><a href="#wall"><i>5</i>The Wall <small>Things I love</small></a></li>
+        <li><a href="#giftshop"><i>6</i>Gift Shop <small>Contact</small></a></li>
+      </ol>
+    </div>
+
+    <div class="scene" id="scene">
+      <div class="plane" id="plane">
+
+        <svg class="plan" viewBox="0 0 600 700" aria-hidden="true" focusable="false">
+          <defs>
+            <pattern id="tiles" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="rgba(143,240,200,.1)" stroke-width="1"/></pattern>
+            <linearGradient id="floorG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9dcc0" stop-opacity=".2"/><stop offset="1" stop-color="#cdb68c" stop-opacity=".08"/></linearGradient>
+          </defs>
+
+          <!-- site -->
+          <rect x="8" y="8" width="584" height="684" rx="14" fill="url(#floorG)"/>
+          <rect x="8" y="8" width="584" height="684" rx="14" fill="url(#tiles)"/>
+          <rect x="8" y="8" width="584" height="684" rx="14" fill="none" stroke="#d2ac62" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+
+          <!-- corridor -->
+          <rect x="250" y="130" width="100" height="430" fill="rgba(233,220,192,.14)"/>
+          <path d="M250 130V560M350 130V560" stroke="#d2ac62" stroke-width="2" stroke-dasharray="10 6" opacity=".7"/>
+
+          <!-- rooms -->
+          <g fill="rgba(77,90,44,.42)" stroke="#d2ac62" stroke-width="4" stroke-linejoin="round">
+            <rect x="40" y="360" width="210" height="160"/>
+            <rect x="350" y="360" width="210" height="160"/>
+            <rect x="40" y="170" width="210" height="150"/>
+            <rect x="350" y="170" width="210" height="150"/>
+            <rect x="190" y="30" width="220" height="100"/>
+            <rect x="200" y="560" width="200" height="110"/>
+          </g>
+
+          <!-- doorways + swing arcs -->
+          <path d="M250 410V470M350 410V470M250 215V275M350 215V275M270 130H330M270 560H330M260 670H340" stroke="#8ff0c8" stroke-width="6"/>
+          <g fill="none" stroke="rgba(143,240,200,.55)" stroke-width="1.5" stroke-dasharray="3 3">
+            <path d="M250 410A60 60 0 0 0 190 470"/>
+            <path d="M350 410A60 60 0 0 1 410 470"/>
+            <path d="M250 215A60 60 0 0 0 190 275"/>
+            <path d="M350 215A60 60 0 0 1 410 275"/>
+            <path d="M330 130A60 60 0 0 0 270 70"/>
+            <path d="M330 560A60 60 0 0 0 270 500"/>
+          </g>
+
+          <!-- columns -->
+          <g fill="#d2ac62" stroke="#6a4b1e" stroke-width="1.5">
+            <circle cx="262" cy="160" r="5"/><circle cx="338" cy="160" r="5"/>
+            <circle cx="262" cy="195" r="5"/><circle cx="338" cy="195" r="5"/>
+            <circle cx="262" cy="300" r="5"/><circle cx="338" cy="300" r="5"/>
+            <circle cx="262" cy="335" r="5"/><circle cx="338" cy="335" r="5"/>
+            <circle cx="262" cy="490" r="5"/><circle cx="338" cy="490" r="5"/>
+            <circle cx="262" cy="530" r="5"/><circle cx="338" cy="530" r="5"/>
+          </g>
+
+          <!-- frames on the walls, cases, counter -->
+          <g stroke="#d2ac62" stroke-width="6" stroke-linecap="round" opacity=".9">
+            <path d="M70 372H110M130 372H170M190 372H230"/>
+            <path d="M370 372H410M430 372H470M490 372H530"/>
+          </g>
+          <rect x="95" y="225" width="100" height="50" fill="rgba(143,240,200,.14)" stroke="#8ff0c8" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <g fill="none" stroke="#d2ac62" stroke-width="2.5">
+            <rect x="380" y="190" width="30" height="30"/><rect x="430" y="190" width="30" height="30"/><rect x="480" y="190" width="30" height="30"/>
+          </g>
+          <rect x="230" y="52" width="140" height="24" fill="rgba(210,172,98,.22)" stroke="#d2ac62" stroke-width="2"/>
+          <circle cx="300" cy="615" r="34" fill="none" stroke="rgba(143,240,200,.5)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+          <!-- dimensions -->
+          <g stroke="#d2ac62" stroke-width="1.2" opacity=".7" fill="none">
+            <path d="M24 360V520M18 360H30M18 520H30"/>
+            <path d="M576 170V320M570 170H582M570 320H582"/>
+            <path d="M190 18H410M190 12V24M410 12V24"/>
+          </g>
+          <g font-family="Space Mono,monospace" font-size="11" fill="#d2ac62" opacity=".85" text-anchor="middle">
+            <text x="14" y="446" transform="rotate(-90 14 446)">16.0 m</text>
+            <text x="588" y="250" transform="rotate(90 588 250)">15.0 m</text>
+            <text x="300" y="42" dy="-30">22.0 m</text>
+          </g>
+
+          <!-- compass + scale -->
+          <g transform="translate(76 76)" fill="none" stroke="#d2ac62" stroke-width="1.5">
+            <circle r="26"/><path d="M0-36V36M-36 0H36" opacity=".5"/><path d="M0-26L7 0L0 26L-7 0Z" fill="rgba(210,172,98,.3)"/>
+          </g>
+          <text x="76" y="30" font-family="Space Mono,monospace" font-size="12" font-weight="700" fill="#8ff0c8" text-anchor="middle">N</text>
+          <path d="M450 650H550M450 644V656M500 644V656M550 644V656" stroke="#d2ac62" stroke-width="1.5" opacity=".8" fill="none"/>
+          <text x="500" y="634" font-family="Space Mono,monospace" font-size="10" fill="#d2ac62" opacity=".85" text-anchor="middle">0 · 5 · 10 m</text>
+
+          <!-- the walk -->
+          <path class="route" d="M300 640V440H150H300H450H300V245H150H300H450H300V90"/>
+          <g class="walker">
+            <circle r="15" fill="rgba(143,240,200,.2)"/>
+            <circle r="6" fill="#8ff0c8"/>
+            <animateMotion dur="32s" repeatCount="indefinite" path="M300 640V440H150H300H450H300V245H150H300H450H300V90"/>
+          </g>
+        </svg>
+
+        <!-- room pins -->
+        <a class="node start" href="#entrance" style="--x:50%;--y:87.9%;--i:0" aria-label="Entrance Hall: artist statement">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="tag">You are here</span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V10a6 6 0 0 1 12 0v11M3 21h18M12 14v3"/></svg></span>
+            <span class="lbl">Entrance<small>Artist statement</small></span>
+          </span></span>
+        </a>
+
+        <a class="node" href="#wing-a" style="--x:24.2%;--y:62.9%;--i:1" aria-label="Wing A: permanent collection">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="14"/><rect x="8" y="9" width="8" height="6"/></svg></span>
+            <span class="lbl">Wing A<small>Permanent Collection</small></span>
+          </span></span>
+        </a>
+
+        <a class="node" href="#wing-b" style="--x:75.8%;--y:62.9%;--i:2" aria-label="Wing B: currently being painted">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20c4 0 4-3 6-5l7-7 3 3-7 7c-2 2-5 2-9 2z"/><path d="M14 6l3-3 4 4-3 3"/></svg></span>
+            <span class="lbl">Wing B<small>Being Painted</small></span>
+          </span></span>
+        </a>
+
+        <a class="node" href="#artifacts" style="--x:24.2%;--y:35%;--i:3" aria-label="The Artifacts: skills">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v3c-3 2-4 5-4 8 0 4 2 7 6 7s6-3 6-7c0-3-1-6-4-8V3"/></svg></span>
+            <span class="lbl">Artifacts<small>Skills</small></span>
+          </span></span>
+        </a>
+
+        <a class="node" href="#wall" style="--x:75.8%;--y:35%;--i:4" aria-label="The Wall: things I love">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 21V11a7 7 0 0 1 14 0v10M3 21h18M9 21v-7a3 3 0 0 1 6 0v7"/></svg></span>
+            <span class="lbl">The Wall<small>Things I love</small></span>
+          </span></span>
+        </a>
+
+        <a class="node" href="#giftshop" style="--x:50%;--y:11.4%;--i:5" aria-label="Gift shop: contact">
+          <span class="lift"><span class="pin"><span class="tether"></span>
+            <span class="chip"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="10"/><path d="M3 7h18v3H3zM12 7v13M12 7c-2-4-6-3-5 0M12 7c2-4 6-3 5 0"/></svg></span>
+            <span class="lbl">Gift Shop<small>Contact</small></span>
+          </span></span>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="hall">
+
+  <!-- ENTRANCE -->
+  <header id="entrance" class="entrance" data-audio="Welcome to The Archive of What-Ifs. Every exhibit here is a question someone asked before it happened. Please keep scrolling, and do not touch the rope.">
+    <div class="hero-arch">
+      <p class="kicker">Entrance Hall · Est. 2026 · Please do not feed the models</p>
+      <h2 class="hero-title">Welcome, step inside</h2>
+      <p class="tagline">Wipe your feet. Mind the rope. Admission is free.</p>
+    </div>
+
+    <article class="statement reveal" data-audio="Artist statement. Diya. Medium: curiosity, Python, and a persistent need to know why the numbers say that. Drawn to computers by a love of all things technical, Diya builds systems that turn messy data into decisions. Her work spans security, prediction, and simulation. Her next chapter blends data and people. Known for being chirpy, considerate, deterministic, and optimistic. Results are reproducible. The seed is fixed.">
+      <p class="kicker">Artist Statement</p>
+      <h2>DIYA</h2>
+      <p class="degree">B.Tech, Data Science</p>
+      <p class="medium-line"><em>Medium: curiosity, Python, and a persistent need to know why the numbers say that.</em></p>
+      <p>Drawn to computers by a love of all things technical, Diya builds systems that turn messy data into decisions. Her work spans security, prediction, and simulation. Her next chapter blends data and people.</p>
+      <p class="known"><em>Known for being chirpy, considerate, deterministic, and optimistic. Results are reproducible. Seed is fixed.</em></p>
+    </article>
+
+    <div class="rope-wrap">
+      <svg id="ropeSvg" viewBox="0 0 300 110" role="img" aria-label="A green velvet rope between two brass posts. Try tugging it.">
+        <g fill="#c9a35a" stroke="#6a4b1e" stroke-width="2">
+          <circle cx="30" cy="16" r="8"/><rect x="26" y="22" width="8" height="74"/><ellipse cx="30" cy="98" rx="16" ry="6"/>
+          <circle cx="270" cy="16" r="8"/><rect x="266" y="22" width="8" height="74"/><ellipse cx="270" cy="98" rx="16" ry="6"/>
+        </g>
+        <path id="rope" d="M30 20 Q150 100 270 20" fill="none" stroke="#4d5a2c" stroke-width="7" stroke-linecap="round"/>
+        <circle id="knob" cx="150" cy="60" r="10" fill="#c9a35a" stroke="#6a4b1e" stroke-width="2"/>
+        <circle id="hit" cx="150" cy="60" r="26" fill="transparent" style="cursor:grab;touch-action:none"/>
+      </svg>
+      <p class="sign">DO NOT TOUCH<br><small>The artist bites. (Butterflies bite harder.)</small></p>
+    </div>
+  </header>
+
+  <!-- WING A -->
+  <section id="wing-a" data-room="wing-a">
+    <div class="wing reveal" data-audio="Wing A. The Permanent Collection. Finished works, fully lit. Photography encouraged.">
+      <p class="kicker">Wing A</p>
+      <h2>The Permanent Collection</h2>
+      <p>Finished works. Fully lit. Photography encouraged.</p>
+    </div>
+
+    <!-- Exhibit 01 -->
+    <article class="exhibit reveal" data-audio="Exhibit one. SQLGuard, 2026. A machine learning system that spots and blocks SQL injection attacks by reading queries the way a compiler would. Ninety eight point one percent detection accuracy, under five milliseconds per query.">
+      <div class="frame" style="--d:0s"><div class="frame-float"><div class="frame-box">
+        <div class="canvas" style="aspect-ratio:1700/960">
+          <span class="ph">sqlguard-1.png<br>screenshot goes here</span>
+          <img src="assets/sqlguard-1.png" alt="SQLGuard live analytics dashboard" loading="lazy" onerror="this.remove()">
+        </div>
+        <div class="holo">
+          <h4>◈ CLOSE INSPECTION</h4>
+          <ul>
+            <li>AST-based feature extraction</li>
+            <li>Random Forest, XGBoost and CodeBERT models</li>
+            <li>Custom adversarial dataset</li>
+            <li>PostgreSQL monitor: 65K+ records, live dashboard</li>
+            <li>Research paper in progress</li>
+          </ul>
+        </div>
+      </div></div></div>
+      <div class="placard">
+        <p class="no">Exhibit 01 · Wing A</p>
+        <h3>SQLGuard</h3>
+        <p class="sub">ML-driven SQL injection detection</p>
+        <p class="medium">Medium: Python, PostgreSQL, XGBoost, CodeBERT, React, and a healthy distrust of user input · 2026</p>
+        <p class="desc">An ML system that spots and blocks SQL injection attacks by reading queries the way a compiler would.</p>
+        <p class="result">98.1% detection accuracy · &lt;5 ms inference</p>
+        <div class="actions">
+          <button class="link inspect" type="button">Inspect ◈</button>
+          <a class="link" href="https://github.com/diyam-03/sqlguard" target="_blank" rel="noopener">Source code</a>
+          <span class="link off">Live exhibit: closed for restoration</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Exhibit 02 -->
+    <article class="exhibit flip reveal" data-audio="Exhibit two. GradScope, 2026. Predicts a graduate admission probability from an applicant's profile, across fourteen hundred and twenty two ranked universities. R squared of zero point seven six.">
+      <div class="frame" style="--d:-2.4s"><div class="frame-float"><div class="frame-box">
+        <div class="canvas" style="aspect-ratio:1700/912">
+          <span class="ph">gradscope-1.png<br>screenshot goes here</span>
+          <img src="assets/gradscope-1.png" alt="GradScope admissions prediction screen" loading="lazy" onerror="this.remove()">
+        </div>
+        <div class="holo">
+          <h4>◈ CLOSE INSPECTION</h4>
+          <ul>
+            <li>Gradient Boosting, Random Forest, Linear Regression</li>
+            <li>400+ applicant records</li>
+            <li>1,422 QS-ranked universities integrated</li>
+            <li>Supabase / PostgreSQL + Streamlit Cloud</li>
+          </ul>
+        </div>
+      </div></div></div>
+      <div class="placard">
+        <p class="no">Exhibit 02 · Wing A</p>
+        <h3>GradScope</h3>
+        <p class="sub">Admissions prediction and analysis</p>
+        <p class="medium">Medium: Python, Streamlit, Supabase, Scikit-learn. Predicts admission odds, not your essay · 2026</p>
+        <p class="desc">A platform that estimates your graduate admission probability from your profile and shows where you stand.</p>
+        <p class="result">R² = 0.76 · MAE = 4.65</p>
+        <div class="actions">
+          <button class="link inspect" type="button">Inspect ◈</button>
+          <a class="link" href="https://github.com/diyam-03/gradscope-admission-intelligence" target="_blank" rel="noopener">Source code</a>
+          <span class="link off">Live exhibit: closed for restoration</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Exhibit 03 -->
+    <article class="exhibit reveal" data-audio="Exhibit three. PaySecure. UPI fraud is rising fast in India, and most detection systems depend on big corporate datasets and black box models. PaySecure was built from scratch on a survey of two hundred and two real people.">
+      <div class="frame" style="--d:-4.2s"><div class="frame-float"><div class="frame-box">
+        <div class="canvas" style="aspect-ratio:1700/967">
+          <span class="ph">paysecure-1.png<br>screenshot goes here</span>
+          <img src="assets/paysecure-1.png" alt="PaySecure fraud predictor screen" loading="lazy" onerror="this.remove()">
+        </div>
+        <div class="holo">
+          <h4>◈ CLOSE INSPECTION</h4>
+          <ul>
+            <li>Real survey of 202 people (Google Forms)</li>
+            <li>Amount, time of day, recipient type, OTP requests</li>
+            <li>Classical statistics before any model was trained</li>
+            <li>Logistic Regression model, AUC-ROC 0.90</li>
+            <li>A live fraud predictor with plain-English reasons</li>
+          </ul>
+        </div>
+      </div></div></div>
+      <div class="placard">
+        <p class="no">Exhibit 03 · Wing A</p>
+        <h3>PaySecure</h3>
+        <p class="sub">UPI fraud prediction from real behaviour</p>
+        <p class="medium">Medium: Google Forms, statistical inference, Logistic Regression, and 202 very patient respondents · 2026</p>
+        <p class="desc">Instead of downloading a dataset, I asked real people how they use UPI, understood the data with statistics, then built the predictor.</p>
+        <p class="result">202 real responses · AUC-ROC 0.90</p>
+        <div class="actions">
+          <button class="link inspect" type="button">Inspect ◈</button>
+          <a class="link" href="https://github.com/diyam-03/paysecure" target="_blank" rel="noopener">Source code</a>
+          <span class="link off">Live exhibit: closed for restoration</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- WING B -->
+  <section id="wing-b" data-room="wing-b">
+    <div class="wing reveal" data-audio="Wing B. Currently being painted. Pardon our scaffolding. Wet paint. Ideas still drying.">
+      <p class="kicker">Wing B</p>
+      <h2>Currently Being Painted</h2>
+      <p>Pardon our scaffolding. Wet paint. Ideas still drying.</p>
+    </div>
+
+    <!-- Exhibit 04 -->
+    <article class="exhibit reveal" data-audio="Exhibit four. FinVerse, work in progress. A financial digital twin that turns a financial life into a simulated future you can explore, stress test and compare, instead of just tracking what already happened.">
+      <div class="frame" style="--d:-1s"><div class="frame-float"><div class="frame-box">
+        <div class="canvas">
+          <svg class="sketch" aria-hidden="true"><use href="#sketch"/></svg>
+          <span class="ph wip">sketch in progress</span>
+        </div>
+        <div class="tape"><span>WET PAINT</span></div>
+        <div class="holo">
+          <h4>◈ CLOSE INSPECTION</h4>
+          <ul>
+            <li>A digital twin of a user's financial life</li>
+            <li>Explore, stress-test and compare simulated futures</li>
+            <li>Designed as a cloud architecture on AWS</li>
+            <li>Built for my Cloud Computing course</li>
+          </ul>
+        </div>
+      </div></div></div>
+      <div class="placard">
+        <p class="no">Exhibit 04 · Wing B · Work in progress</p>
+        <h3>FinVerse</h3>
+        <p class="sub">Financial digital twin and scenario simulation</p>
+        <p class="medium">Medium: AWS, simulation, and optimism · 2026</p>
+        <p class="desc">Turns a financial life into a simulated future you can explore, stress-test and compare, instead of just tracking what already happened.</p>
+        <p class="result">Status: under construction</p>
+        <div class="actions">
+          <button class="link inspect" type="button">Inspect ◈</button>
+          <span class="link off">Opening soon</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Exhibit 05 -->
+    <article class="exhibit flip reveal" data-audio="Exhibit five. Devil's Advocate Agents, research in progress. Can an AI agent argue with other AI agents to stop bias from snowballing in credit decisions?">
+      <div class="frame" style="--d:-3.3s"><div class="frame-float"><div class="frame-box">
+        <div class="canvas">
+          <svg class="sketch" aria-hidden="true"><use href="#sketch"/></svg>
+          <span class="ph wip">sketch in progress</span>
+        </div>
+        <div class="tape"><span>WET PAINT</span></div>
+        <div class="holo">
+          <h4>◈ CLOSE INSPECTION</h4>
+          <ul>
+            <li>Multi-agent LLM debate can amplify demographic bias</li>
+            <li>Mitigation designed for multi-agent dynamics</li>
+            <li>Compared against vanilla debate and single-agent baselines</li>
+          </ul>
+        </div>
+      </div></div></div>
+      <div class="placard">
+        <p class="no">Exhibit 05 · Wing B · Research in progress</p>
+        <h3>Devil's Advocate Agents</h3>
+        <p class="sub">Counterfactual debiasing in multi-agent LLM credit decisions</p>
+        <p class="medium">Medium: Python, multi-agent LLMs, and an AI trained to argue back · 2026</p>
+        <p class="desc">Can an AI agent play devil's advocate and stop bias from snowballing when LLM agents debate loan decisions?</p>
+        <p class="result">Status: research in progress</p>
+        <div class="actions">
+          <button class="link inspect" type="button">Inspect ◈</button>
+          <span class="link off">Opening soon</span>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ARTIFACTS -->
+  <section id="artifacts" class="room" data-room="artifacts">
+    <div class="wing reveal" data-audio="The Artifacts. A glass case of tools, recovered from many late night debugging sessions.">
+      <p class="kicker">Glass Case</p>
+      <h2>The Artifacts</h2>
+      <p>Tools recovered from many late-night debugging sessions.</p>
+    </div>
+    <div class="case reveal">
+      <div class="artifacts">
+        <div class="artifact"><b>Python</b><span>Daily driver. Well-worn.</span></div>
+        <div class="artifact"><b>SQL · PostgreSQL</b><span>Interrogates databases politely.</span></div>
+        <div class="artifact"><b>scikit-learn</b><span>Fits models. Occasionally overfits opinions.</span></div>
+        <div class="artifact"><b>XGBoost</b><span>Gradient boosted. Mildly caffeinated.</span></div>
+        <div class="artifact"><b>CodeBERT</b><span>Reads code like prose.</span></div>
+        <div class="artifact"><b>Streamlit · React · Supabase</b><span>Front of house.</span></div>
+        <div class="artifact"><b>Statistics &amp; survey design</b><span>Where 202 respondents came from.</span></div>
+        <div class="artifact"><b>Data analysis</b><span>Numbers, interrogated.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE WALL -->
+  <section id="wall" class="room" data-room="wall">
+    <div class="wing reveal" data-audio="The Wall of Things I Love. Architecture, places with history, and a very well funded cuisine wing.">
+      <p class="kicker">Off the Record</p>
+      <h2>The Wall of Things I Love</h2>
+      <p>Not projects, but they explain the projects.</p>
+    </div>
+    <div class="wall-grid reveal">
+      <figure class="mini">
+        <div class="frame-box"><div class="canvas sq"><svg class="drawing" aria-hidden="true"><use href="#arch"/></svg><img src="assets/wall-arch.jpg" alt="Carved marble dome ceiling with a golden chandelier" loading="lazy" onerror="this.remove()"></div></div>
+        <figcaption>Study of a Dome, from Below<br><small>Neck pain: worth it</small></figcaption>
+      </figure>
+      <figure class="mini">
+        <div class="frame-box"><div class="canvas sq"><svg class="drawing" aria-hidden="true"><use href="#dome"/></svg><img src="assets/wall-heritage.jpg" alt="Ancient red-brick ruins with a stone staircase" loading="lazy" onerror="this.remove()"></div></div>
+        <figcaption>Heritage Site, Visited<br><small>Loved. Photographed. Re-visited.</small></figcaption>
+      </figure>
+      <figure class="mini">
+        <div class="frame-box"><div class="canvas sq plate"><span>Cuisine<br>Wing</span><img src="assets/wall-food.jpg" alt="Sushi, ramen and a mint lime drink on a wooden table" loading="lazy" onerror="this.remove()"></div></div>
+        <figcaption>The Cuisine Wing<br><small>Open daily. Mostly around lunch.</small></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- GIFT SHOP -->
+  <section id="giftshop" class="room" data-room="giftshop">
+    <div class="wing reveal" data-audio="The Gift Shop and Guestbook. Sign the guestbook, or take a postcard.">
+      <p class="kicker">Exit Through the</p>
+      <h2>Gift Shop &amp; Guestbook</h2>
+      <p>Take a postcard. Sign the guestbook. Say hi.</p>
+    </div>
+    <div class="shop reveal">
+      <a class="souvenir" href="mailto:diyadmehta3616@gmail.com?subject=Hello%20from%20The%20Archive%20of%20What-Ifs"><b>Postcard</b><span>Email me</span></a>
+      <a class="souvenir" href="https://github.com/diyam-03" target="_blank" rel="noopener"><b>Source code</b><span>GitHub</span></a>
+      <a class="souvenir" href="https://www.linkedin.com/in/diyamehta03" target="_blank" rel="noopener"><b>Business card</b><span>LinkedIn</span></a>
+    </div>
+
+    <form id="guestbook" class="guestbook reveal">
+      <h3>Sign the Guestbook</h3>
+      <label>Your name<input id="gName" type="text" maxlength="60" autocomplete="name" placeholder="A very nice visitor"></label>
+      <label>Your note<textarea id="gMsg" rows="4" maxlength="600" required placeholder="What did you think of the exhibits?"></textarea></label>
+      <button class="link" type="submit">Leave a note (opens your email)</button>
+    </form>
+
+    <div class="staff-wrap">
+      <button id="staff" class="staff" type="button">Staff only</button>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>© 2026 Diya · Built by hand in HTML, CSS &amp; JavaScript</p>
+    <p>Fonts: Cormorant Garamond &amp; Space Mono (Google Fonts) · The museum closes when you do.</p>
+  </footer>
+</div>
+
+<div id="guard" class="guard" role="status" aria-live="polite">
+  <div class="guard-face" aria-hidden="true">💂</div>
+  <p id="guardMsg"></p>
+</div>
+
+<script src="script.js"></script>
+<script src="map.js"></script>
+</body>
+</html>
