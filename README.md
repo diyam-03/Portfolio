@@ -1,51 +1,94 @@
+<div align="center">
+
 # The Archive of What-Ifs
 
-My personal portfolio, built as a museum. Hand-coded in plain HTML, CSS and JavaScript (no frameworks, no templates, no builders).
+**A personal portfolio designed as an interactive museum.**
 
-**Live site:** _add your GitHub Pages / Vercel link here_
+A collection of projects, skills, and curiosities — presented as exhibits in a digital archive.
 
-## Concept
-The site opens on a floating 3D floor plan of the museum; click a room to walk there. Below it, a long hallway you scroll through. Projects are floating framed paintings with placards, skills sit in a glass case, and the gift shop is the contact page. Extras: audio guide, "after hours" mode, a draggable "do not touch" rope, a security guard, a floor-plan map and a few hidden surprises.
+[**Explore the live portfolio →**](https://portfolio-diyamehta.vercel.app)
 
-## Files
+</div>
+
+---
+
+## Overview
+
+The Archive of What-Ifs reimagines a conventional portfolio as a museum you can explore. Visitors begin at an interactive floor plan, move through themed rooms, and discover projects and skills as curated exhibits.
+
+Built from scratch with **HTML, CSS, and vanilla JavaScript**, without a front-end framework or website builder.
+
+## Preview
+
+### The floor plan
+
+An interactive museum map acts as the entrance to the experience.
+
+![The Archive of What-Ifs — interactive floor plan](./readme-assets/floor-plan.jpg)
+
+### Project exhibits
+
+Projects are presented as framed exhibits with descriptions, technologies, and links where available.
+
+![Project gallery featuring SQLGuard and GradScope](./readme-assets/project-gallery.jpg)
+
+### The artifacts
+
+A museum-style skills display and a personal wall add character beyond the project list.
+
+![Skills display and the Wall of Things I Love](./readme-assets/skills-and-wall.jpg)
+
+### The guestbook
+
+The final room brings together contact links and a guestbook-style note form.
+
+![Gift shop and guestbook contact section](./readme-assets/guestbook.jpg)
+
+## Highlights
+
+- **Interactive floor plan** for navigating between rooms
+- **Curated project exhibits** for selected technical work
+- **Skills display** presented as a museum glass case
+- **The Wall of Things I Love** for interests beyond code
+- **Audio guide** and an “After hours” visual mode
+- **Guestbook-style contact section**
+
+## Built with
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+## Run locally
+
+No build step or package installation is required.
+
+1. Clone or download this repository.
+2. Open `index.html` in your browser.
+
+For a more reliable local preview, serve the folder with any simple static HTTP server.
+
+## Project structure
+
+```text
+.
+├── index.html
+├── style.css
+├── script.js
+├── map.css
+├── map.js
+├── assets/
+└── readme-assets/
 ```
-index.html   structure and content
-style.css    design (brown/green museum palette + mint "digital" accent)
-script.js    scroll reveals, map, audio guide, rope, guard, guestbook
-map.css      3D floor-plan landing styles
-map.js       floor-plan tilt, parallax, click-to-walk
-assets/      project screenshots (see below)
-```
 
-## Adding screenshots
-Drop images into `assets/` with these exact names. If a file is missing, the frame shows a blueprint placeholder.
+## Live demo
 
-- `sqlguard-1.png`
-- `gradscope-1.png`
-- `paysecure-1.png`
+**[portfolio-diyamehta.vercel.app](https://portfolio-diyamehta.vercel.app)**
 
-## Before submitting (placeholders to fill)
-- [ ] Replace the GitHub links in `index.html` (search `TODO`) with the real repo URLs
-- [ ] Confirm PaySecure year and add its tools
-- [ ] Add the live site link at the top of this README
-- [ ] Wake the Streamlit apps / restore Supabase, then turn "Live exhibit: closed for restoration" into real links
-- [ ] Test in an incognito window, on a phone, and re-check the day before the deadline
+---
 
-## Deploy (GitHub Pages)
-Create a public repo named `diyam-03.github.io` on GitHub, then in PowerShell from this folder:
+<div align="center">
 
-```powershell
-git init
-git add .
-git commit -m "The Archive of What-Ifs"
-git branch -M main
-git remote add origin https://github.com/diyam-03/diyam-03.github.io.git
-git push -u origin main
-```
+*Built with curiosity, care, and a little museum magic.*
 
-Then repo **Settings → Pages → Branch: main / root → Save**. The site goes live at `https://diyam-03.github.io` within a few minutes.
-
-## Credits
-- Fonts: [Cormorant Garamond](https://fonts.google.com/specimen/Cormorant+Garamond) and [Space Mono](https://fonts.google.com/specimen/Space+Mono) via Google Fonts
-- Layout idea inspired by gallery and museum design references on Pinterest
-- All code, copy and drawings written for this project (with help from an AI coding assistant, as allowed by the assignment)
+</div>
